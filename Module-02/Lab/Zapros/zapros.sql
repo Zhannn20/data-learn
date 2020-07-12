@@ -1,9 +1,9 @@
 
 
 -- Returned
-select coalesce(returned, 'No'), round((sum(o.sales)/(select sum(sales) from orders) * 100),2) as Итого
-from orders o left join (select order_id, returned from returns1
-group by order_id, returned) as qq
+
+select coalesce(returned, 'No') as Возврат, round((sum(o.sales)/(select sum(sales) from orders) * 100),2) as Итого
+from orders o left join (select distinct order_id, returned from returns1) as qq
 on o.order_id = qq.order_id
 group by returned 
 order by Итого desc;
